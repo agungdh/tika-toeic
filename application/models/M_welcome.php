@@ -73,6 +73,23 @@ class M_welcome extends CI_Model{
 		return $row->hasil;
 	}
 
+	function ambil_jumlah_pendaftar_user($id_user){
+		$sql = "SELECT count(*) hasil FROM pendaftaran
+				WHERE id_user = ?";
+		$query = $this->db->query($sql, array($id_user));
+		$row = $query->row();
+		return $row->hasil;
+	}
+
+	function ambil_jumlah_pendaftar_user_ditolak($id_user){
+		$sql = "SELECT count(*) hasil FROM pendaftaran
+				WHERE id_user = ?
+				AND status = 0";
+		$query = $this->db->query($sql, array($id_user));
+		$row = $query->row();
+		return $row->hasil;
+	}
+
 	function ambil_user_id($id){
 		$sql = "SELECT * 
 				FROM user

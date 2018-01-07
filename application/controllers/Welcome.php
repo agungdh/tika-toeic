@@ -129,13 +129,23 @@ class Welcome extends CI_Controller {
 
 	function daftar_periode($id_periode) {
 		$jumlah_pendaftar = $this->m_welcome->ambil_jumlah_pendaftar($id_periode);
+		$jumlah_pendaftar_user = $this->m_welcome->ambil_jumlah_pendaftar_user($this->session->id);
+		$jumlah_pendaftar_user_ditolak = $this->m_welcome->ambil_jumlah_pendaftar_user_ditolak($this->session->id);
+		// var_dump($jumlah_pendaftar_user);
+		// exit();
 		// echo $jumlah_pendaftar;
 		if ($jumlah_pendaftar < 25) {
-			$this->m_welcome->daftar_periode($this->session->id, $id_periode, null);
+			// var_dump($jumlah_pendaftar_user);
+			// exit();
+			if ($jumlah_pendaftar_user == 0 || ($jumlah_pendaftar_user == $jumlah_pendaftar_user_ditolak)) {
+				$this->m_welcome->daftar_periode($this->session->id, $id_periode, null);
 
-			redirect(base_url());		
+				redirect(base_url('daftar_peserta'));			
+			} else {
+				redirect(base_url("daftar_peserta?error="));		
+			}
 		} else {
-			redirect(base_url("?error=jumlah_pendaftar"));		
+			redirect(base_url("daftar_peserta?error=jumlah_pendaftar"));		
 		}
 	}
 
